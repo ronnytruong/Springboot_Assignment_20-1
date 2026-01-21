@@ -28,6 +28,12 @@ public class DepartmentController {
                 .build();
     }
 
+    @GetMapping("/{id}")
+    public DepartmentResponse findById(@PathVariable int id) {
+        log.debug("REST request to find Department by id : {}", id);
+        return departmentService.getDepartment(id);
+    }
+
     @PostMapping
     public ApiResponse<DepartmentResponse> createDepartment(
             @RequestBody DepartmentCreationRequest request) {

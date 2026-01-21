@@ -26,5 +26,7 @@ public class Employee {
     String address;
     String phone;
     Boolean status;
-    Integer department;
+
+    @Column(name = "department_id")
+    Integer departmentId;
 }

@@ -13,6 +13,6 @@ public class EmployeeResponse {
     String fullName;
     String address;
     String phone;
-    Integer department;
+    Integer departmentId;
     Boolean status;
 }

@@ -43,6 +43,7 @@ public class EmployeeService {
 
         Employee employee = employeeMapper.toEmployee(request);
         employee.setStatus(true);
+        employee.setDepartmentId(request.getDepartmentId());
 
         employeeRepository.save(employee);
 
@@ -65,12 +66,14 @@ public class EmployeeService {
     }
 
     public EmployeeResponse addToDepartment(Integer departmentId, String employeeId) {
+        log.info("Employee Id: {}, Department Id: {}", employeeId, departmentId);
         Employee employee = employeeRepository.findById(employeeId)
                 .orElseThrow(() -> new AppException(ErrorCode.EMPLOYEE_NOT_FOUND));
 
-        DepartmentResponse departmentResponse = departmentClient.getDepartment(departmentId);
+        DepartmentResponse departmentResponse = departmentClient.findById(departmentId);
+        log.info("Department Id: {}", departmentResponse.getId());
 
-        employee.setDepartment(departmentResponse.getId());
+        employee.setDepartmentId(departmentResponse.getId());
         employeeRepository.save(employee);
         return employeeMapper.toEmployeeResponse(employee);
     }
@@ -79,13 +82,13 @@ public class EmployeeService {
         Employee employee = employeeRepository.findById(employeeId)
                 .orElseThrow(() -> new AppException(ErrorCode.EMPLOYEE_NOT_FOUND));
 
-        DepartmentResponse departmentResponse = departmentClient.getDepartment(departmentId);
+        DepartmentResponse departmentResponse = departmentClient.findById(departmentId);
 
-        if(!employee.getDepartment().equals(departmentResponse.getId())) {
+        if(!employee.getDepartmentId().equals(departmentResponse.getId())) {
             throw new AppException(ErrorCode.EMPLOYEE_NOT_FOUND);
         }
 
-        employee.setDepartment(null);
+        employee.setDepartmentId(null);
         employeeRepository.save(employee);
         return employeeMapper.toEmployeeResponse(employee);
     }

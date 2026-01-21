@@ -58,6 +58,7 @@ public class EmployeeController {
     public ApiResponse<EmployeeResponse> addToDepartment(
             @RequestParam String employeeId,
             @RequestParam Integer departmentId) {
+        log.info("Employee Id: {}, Employee Id: {}", employeeId, departmentId);
 
         return ApiResponse.<EmployeeResponse>builder()
                 .result(employeeService.addToDepartment(departmentId, employeeId))
